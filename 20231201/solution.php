@@ -1,5 +1,6 @@
 <?php
-$dataInput = __DIR__ . '/Data/testData.txt';
+$dataInput = __DIR__ . '/Data/data.txt';
+const BASE = 10;
 /**
  * Get input of file. Each line has a number, surrounded with useless data.
  * Parse out the first & last digit of the line. Combined that will be the original value that should've been.
@@ -15,7 +16,7 @@ $dataInput = __DIR__ . '/Data/testData.txt';
  * & whatever else we needa ttrack.
  */
 $fh = fopen($dataInput,'r');
-$values=[];
+$sum=0;
  // read line by line
 while ($line = fgets($fh)) {
 	/** 
@@ -31,16 +32,16 @@ while ($line = fgets($fh)) {
 			$individualDigits[] = $line[$i];
 		}
 	}
-	$first = $individualDigits[0];
-	$last = $individualDigits[sizeof($individualDigits) -1];
-
-	$lineValue = ($first * 10) + $last;
-	$vals[] = $lineValue;
 	/**
 	 * When we've got the numbers from our line. We'll need
 	 * to grab the 1st and last to then make a 2digit value.
 	 */
+	$first = $individualDigits[0];
+	$last = $individualDigits[sizeof($individualDigits) -1];
+
+	$lineValue = ($first * BASE) + $last;
+	$sum += $lineValue;
 }
-print_r($vals);
 //Don't forget to close.
+echo $sum.PHP_EOL;
 fclose($fh);
