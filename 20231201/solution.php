@@ -20,7 +20,7 @@ $digitStrs = [
 	"eight"	=>	8,
 	"nine"	=>	9
 ];
-$flags = ['o','t','f','s','e','n'];
+$flags = ['o' => 1,'t' => 1,'f' => 1,'s' => 1,'e' => 1,'n' => 1];
 
 $Trie = new Trie();
 
@@ -54,7 +54,14 @@ while ($line = fgets($fh)) {
 	$lineLength = strlen($line);
 	$individualDigits = [];
 	for ($i=0; $i < $lineLength; $i++) { 
-		if(is_numeric($line[$i])){
+		if(!empty($flags[$line[$i]])) {
+			$rezzy = $Trie->search($line,$i);
+			if($rezzy["isEnd"]){
+				$individualDigits[] = $digitStrs[substr($line,$i,$rezzy["length"])];
+				$i += $rezzy["length"] - 2;
+				continue;
+			}
+		} else if(is_numeric($line[$i])){
 			// Save in an array maybe. at least for now.
 			$individualDigits[] = $line[$i];
 		}
