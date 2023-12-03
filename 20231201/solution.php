@@ -1,6 +1,33 @@
 <?php
+require_once __DIR__ . '/Utils/TrieUtil.class.php';
+
 $dataInput = __DIR__ . '/Data/data.txt';
 const BASE = 10;
+
+/**
+ * String:Int map of nubmers.
+ * Flags to trigger a search--if the current index
+ * holds a value j,x,z,y etc... no need to even try to search.
+ */
+$digitStrs = [
+	"one"	=>	1,
+	"two"	=>	2,
+	"three"	=>	3,
+	"four"	=>	4,
+	"five"	=>	5,
+	"six"	=>	6,
+	"seven"	=>	7,
+	"eight"	=>	8,
+	"nine"	=>	9
+];
+$flags = ['o','t','f','s','e','n'];
+
+$Trie = new Trie();
+
+foreach ($digitStrs as $key => $value) {
+	$Trie->insert($key);
+}
+
 /**
  * Get input of file. Each line has a number, surrounded with useless data.
  * Parse out the first & last digit of the line. Combined that will be the original value that should've been.
