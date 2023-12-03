@@ -28,20 +28,25 @@ class Trie {
 
 	}
 
-	public function search(string $str)
-	{
+	public function search(string $str, int $offset) {
 		$strLength = strlen($str);
 		$node = $this->node;
+		$len = 0;
 
-		for ($i=0; $i < $strLength; $i++) { 
+		for ($i=$offset; $i < $strLength; $i++) { 
 			$char = $str[$i];
-			if(!array_key_exists($char, $node->children)) {
-				return false;
+			// echo "Str: ${str}. I: ${i}. Offset: ${offset}. Node char: ${char}. Node: " . json_encode($node);
+			if(!array_key_exists($char, $node->children) || $node->isEnd) {
+				break;
 			}
 			$node = $node->children[$char];
+			$len++;
 		}
 
-		return $node->isEnd;
+		return [
+			"isEnd"		=> $node->isEnd,
+			"length"	=> $len
+		];
 	}
 }
 
